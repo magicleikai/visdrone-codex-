@@ -1,0 +1,26 @@
+# 本地凭据与连接记录
+autodl配置*
+.local/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+# 数据及大文件
+dataset/
+pretrained_weights/
+outputs/
+runs/
+checkpoints/
+*.pth
+*.pt
+*.onnx
+*.engine
+*.tar
+*.tar.gz
+*.zip
+# 临时文件
+__pycache__/
+*.pyc
+.venv/
+~$*

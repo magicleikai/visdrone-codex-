@@ -93,11 +93,12 @@ def sync(client):
     revision = git('rev-parse', 'HEAD').decode().strip()
     archive = LOCAL / f'{revision}.tar'
     subprocess.run(['git', 'archive', '--format=tar', '-o', str(archive), revision], cwd=ROOT, check=True)
-    with tarfile.open(archive, 'a') as tf:
+    with tarfile.open(archive, 'r') as tf:
         hashes = {}
         for member in tf.getmembers():
             if member.isfile():
                 hashes[member.name] = hashlib.sha256(tf.extractfile(member).read()).hexdigest()
+    with tarfile.open(archive, 'a') as tf:
         content = json.dumps({'commit': revision, 'files': hashes}, indent=2, ensure_ascii=False).encode()
         info = tarfile.TarInfo('SOURCE_MANIFEST.json'); info.size = len(content)
         tf.addfile(info, io.BytesIO(content))
